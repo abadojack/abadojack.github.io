@@ -20,7 +20,13 @@ const affirmations = [
     "There’s some good in this world, Mr. Frodo … and it’s worth fighting for. – Samwise Gamgee",
     "All we have to decide is what to do with the time that is given to us. – Gandalf",
     "All that is gold does not glitter, Not all those who wander are lost; The old that is strong does not wither, Deep roots are not reached by the frost.",
-    "Deeds will not be less valiant because they are unpraised. — Aragorn"
+    "Deeds will not be less valiant because they are unpraised. — Aragorn",
+    "Try not to become a man of success, but rather try to become a man of value. — Albert Einstein",
+    "The only way to do great work is to love what you do. — Steve Jobs",
+    "Believe you can and you're halfway there. — Theodore Roosevelt",
+    "Your time is limited, don't waste it living someone else's life. — Steve Jobs",
+    "The best way to predict your future is to create it. — Peter Drucker",
+    "The only limit to our realization of tomorrow will be our doubts of today. — Franklin D. Roosevelt"
 ];
 
 
