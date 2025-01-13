@@ -16,11 +16,17 @@ code {
 	padding: 6rem 0 0 0;
 	margin-left: auto;
 	margin-right: auto;
+	height: 100vh;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	text-align: center;
 }
 
 .hero h1 {
 	color: #444444;
 	font-weight: 600;
+	margin: 0;
 }
 
 .github { color: #6cc644; }
