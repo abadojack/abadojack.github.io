@@ -26,7 +26,8 @@ const affirmations = [
     "Believe you can and you're halfway there. — Theodore Roosevelt",
     "Your time is limited, don't waste it living someone else's life. — Steve Jobs",
     "The best way to predict your future is to create it. — Peter Drucker",
-    "The only limit to our realization of tomorrow will be our doubts of today. — Franklin D. Roosevelt"
+    "The only limit to our realization of tomorrow will be our doubts of today. — Franklin D. Roosevelt",
+    "Don't worry about calming the storm. Calm yourself, the storm will pass."
 ];
 
 
