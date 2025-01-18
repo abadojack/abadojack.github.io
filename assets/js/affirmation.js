@@ -28,7 +28,8 @@ const affirmations = [
     "The best way to predict your future is to create it. — Peter Drucker",
     "The only limit to our realization of tomorrow will be our doubts of today. — Franklin D. Roosevelt",
     "Don't worry about calming the storm. Calm yourself, the storm will pass.",
-    "The secret of your future is hidden in your daily routine."
+    "The secret of your future is hidden in your daily routine.",
+    "It's a beautiful day to be alive! The rest is up to you."
 ];
 
 
