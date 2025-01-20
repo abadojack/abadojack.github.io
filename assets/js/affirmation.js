@@ -29,7 +29,8 @@ const affirmations = [
     "The only limit to our realization of tomorrow will be our doubts of today. — Franklin D. Roosevelt",
     "Don't worry about calming the storm. Calm yourself, the storm will pass.",
     "The secret of your future is hidden in your daily routine.",
-    "It's a beautiful day to be alive! The rest is up to you."
+    "It's a beautiful day to be alive! The rest is up to you.",
+    "Not all storms come to disrupt your life, some come to clear your path."
 ];
 
 
