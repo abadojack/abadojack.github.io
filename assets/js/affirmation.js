@@ -30,7 +30,8 @@ const affirmations = [
     "Don't worry about calming the storm. Calm yourself, the storm will pass.",
     "The secret of your future is hidden in your daily routine.",
     "It's a beautiful day to be alive! The rest is up to you.",
-    "Not all storms come to disrupt your life, some come to clear your path."
+    "Not all storms come to disrupt your life, some come to clear your path.",
+    "Your future is created by what you do today."
 ];
 
 
