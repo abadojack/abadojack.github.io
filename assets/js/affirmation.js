@@ -31,7 +31,8 @@ const affirmations = [
     "The secret of your future is hidden in your daily routine.",
     "It's a beautiful day to be alive! The rest is up to you.",
     "Not all storms come to disrupt your life, some come to clear your path.",
-    "Your future is created by what you do today."
+    "Your future is created by what you do today.",
+    "I am committed to creating consistent and fulfilling habits everyday - Phyian Karinge",
 ];
 
 
