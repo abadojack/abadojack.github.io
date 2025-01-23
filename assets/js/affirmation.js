@@ -32,7 +32,9 @@ const affirmations = [
     "It's a beautiful day to be alive! The rest is up to you.",
     "Not all storms come to disrupt your life, some come to clear your path.",
     "Your future is created by what you do today.",
-    "I am committed to creating consistent and fulfilling habits everyday - Phyian Karinge",
+    "I am committed to creating consistent and fulfilling habits everyday - Phyian Karinge's status",
+    "A year from now, you will be thankful you did this today!",
+    "The moment you decide you're worthy the universe starts to agree."
 ];
 
 
