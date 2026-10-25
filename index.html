@@ -4,8 +4,9 @@
     <meta charset="UTF-8" />
     <title>Abado Mtulla</title>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="description" content="Abado Mtulla — Go developer." />
+    <meta name="description" content="Abado Mtulla — senior software engineer in Nairobi, Kenya, working on observability and backend systems in Go." />
     <meta name="theme-color" content="#1e1f22" />
+    <script>document.documentElement.classList.add("js")</script>
 
     <style>
       :root {
@@ -13,16 +14,21 @@
         --chrome: #2b2d30;
         --border: #393b40;
         --text: #bcbec4;
+        --bright: #dfe1e5;
         --muted: #6f737a;
         --gutter: #4b5059;
         --gutter-active: #a1a3ab;
         --line-active: #26282e;
+        --hover: #2e3036;
         --keyword: #cf8e6d;
-        --type: #2fbaa3;
+        --type: #e5c07b;
         --func: #56a8f5;
         --field: #c77dbb;
         --string: #6aab73;
-        --accent: #3574f0;
+        --accent: #5fd7b5;
+        --todo: #d9a343;
+        --mono: Monaco, Menlo, Consolas, "Courier New", monospace;
+        --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
       }
 
       * { box-sizing: border-box; }
@@ -32,16 +38,25 @@
         margin: 0;
         background: var(--bg);
         color: var(--text);
-        font-family: Monaco, Menlo, Consolas, "Courier New", monospace;
+        font-family: var(--mono);
         font-size: 14px;
       }
 
       body {
-        display: flex;
-        flex-direction: column;
+        display: grid;
+        grid-template-columns: 240px minmax(0, 1fr);
+        grid-template-rows: auto 1fr auto;
+        grid-template-areas:
+          "title title"
+          "explorer editor"
+          "status status";
       }
 
+      a { color: var(--accent); }
+      a:focus-visible { outline: 1px solid var(--accent); outline-offset: 2px; }
+
       .titlebar {
+        grid-area: title;
         display: flex;
         align-items: center;
         gap: 8px;
@@ -58,6 +73,54 @@
       .dot.g { background: #28c840; }
       .titlebar .title { flex: 1; text-align: center; margin-right: 52px; }
 
+      .explorer {
+        grid-area: explorer;
+        overflow: auto;
+        background: var(--chrome);
+        border-right: 1px solid var(--border);
+        font-size: 13px;
+      }
+      .explorer h2 {
+        margin: 0;
+        padding: 10px 16px 8px;
+        font-size: 11px;
+        font-weight: normal;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: var(--muted);
+      }
+      .explorer ul { list-style: none; margin: 0; padding: 0; }
+      .explorer .dir {
+        display: block;
+        padding: 3px 16px;
+        color: var(--text);
+      }
+      .explorer .dir::before { content: "⌄ "; color: var(--muted); }
+      .explorer a {
+        display: block;
+        padding: 3px 16px 3px 34px;
+        color: var(--text);
+        text-decoration: none;
+        white-space: nowrap;
+      }
+      .explorer .root a { padding-left: 16px; }
+      .explorer a::before { margin-right: 6px; }
+      .explorer a[href$=".go"]::before { content: "◆"; color: var(--func); }
+      .explorer a[href$=".md"]::before { content: "▤"; color: var(--muted); }
+      .explorer a:hover { background: var(--hover); }
+      .explorer a[aria-current="page"] {
+        background: var(--line-active);
+        color: var(--accent);
+        box-shadow: inset 2px 0 var(--accent);
+      }
+
+      .editor {
+        grid-area: editor;
+        display: flex;
+        flex-direction: column;
+        min-width: 0;
+        min-height: 0;
+      }
       .tabs {
         display: flex;
         background: var(--chrome);
@@ -66,17 +129,28 @@
       }
       .tab {
         padding: 8px 16px;
-        color: var(--text);
+        color: var(--bright);
         border-bottom: 2px solid var(--accent);
         background: var(--bg);
       }
-      .tab::before { content: "◆ "; color: var(--type); }
-
-      .editor {
+      .crumbs {
+        padding: 6px 16px;
+        font-size: 12px;
+        color: var(--muted);
+        border-bottom: 1px solid var(--border);
+      }
+      .pane:focus { outline: none; }
+      .pane {
         flex: 1;
         overflow: auto;
-        padding: 12px 0 24px;
+        padding: 12px 0 40px;
       }
+
+      .js .file { display: none; }
+      .js .file.active { display: block; }
+      .file + .file { margin-top: 48px; }
+      .js .file + .file { margin-top: 0; }
+
       pre {
         margin: 0;
         line-height: 1.5;
@@ -106,12 +180,8 @@
       .f { color: var(--func); }
       .p { color: var(--field); }
       .s { color: var(--string); }
-
-      a.s, a.s:visited { color: var(--string); text-decoration: none; }
-      a.s:hover, a.s:focus-visible {
-        text-decoration: underline;
-        outline: none;
-      }
+      a.s, a.s:visited { color: var(--accent); text-decoration: none; }
+      a.s:hover { text-decoration: underline; }
 
       .cursor {
         display: inline-block;
@@ -124,10 +194,50 @@
       }
       @keyframes blink { 50% { opacity: 0; } }
 
+      .prose {
+        max-width: 64ch;
+        padding: 8px 32px 0 5rem;
+        font-family: var(--sans);
+        font-size: 16px;
+        line-height: 1.65;
+        color: var(--text);
+      }
+      .prose h1, .prose h2 { color: var(--bright); line-height: 1.25; }
+      .prose h1 { margin: 28px 0 8px; font-size: 28px; }
+      .prose h2 {
+        margin: 28px 0 8px;
+        font-family: var(--mono);
+        font-size: 13px;
+        font-weight: normal;
+        color: var(--muted);
+      }
+      .prose h2::before { content: "## "; color: var(--gutter); }
+      .prose .timeline { list-style: none; padding: 0; }
+      .prose .timeline li { margin-bottom: 14px; }
+      .nw { white-space: nowrap; }
+      .prose strong { color: var(--bright); font-weight: 600; }
+      .prose p, .prose ul { margin: 0 0 12px; }
+      .prose ul { padding-left: 20px; }
+      .prose a { text-decoration: none; }
+      .prose a:hover { text-decoration: underline; }
+      .prose pre { margin: 8px 0 16px -5rem; font-size: 14px; }
+      .meta {
+        font-family: var(--mono);
+        font-size: 12px;
+        color: var(--muted);
+      }
+      .actions { font-family: var(--mono); font-size: 14px; }
+      .todo {
+        font-family: var(--mono);
+        font-size: 13px;
+        color: var(--todo);
+      }
+
       .statusbar {
+        grid-area: status;
         display: flex;
         gap: 18px;
-        justify-content: flex-end;
+        align-items: center;
         padding: 4px 14px;
         background: var(--chrome);
         border-top: 1px solid var(--border);
@@ -135,10 +245,31 @@
         color: var(--muted);
       }
       .statusbar .left { margin-right: auto; }
+      .statusbar a { text-decoration: none; }
+      .statusbar a:hover { text-decoration: underline; }
 
-      @media (max-width: 600px) {
+      @media (max-width: 720px) {
         html, body { font-size: 12px; }
+        body {
+          grid-template-columns: minmax(0, 1fr);
+          grid-template-areas: "title" "explorer" "editor" "status";
+          grid-template-rows: auto auto 1fr auto;
+        }
+        .titlebar .title { margin-right: 0; }
+        .explorer {
+          min-width: 0;
+          border-right: 0;
+          border-bottom: 1px solid var(--border);
+        }
+        .explorer h2, .explorer .dir { display: none; }
+        .explorer ul { display: flex; overflow-x: auto; }
+        .explorer li, .explorer ul ul { display: contents; }
+        .explorer a, .explorer .root a { flex-shrink: 0; padding: 8px 12px; }
+        .explorer a[aria-current="page"] { box-shadow: inset 0 -2px var(--accent); }
+        .tabs, .crumbs { display: none; }
         .l::before { width: 2.5em; padding-right: 1em; }
+        .prose { padding: 8px 16px 0; font-size: 15px; }
+        .prose pre { margin-left: -16px; font-size: 12px; }
         .statusbar .hide-sm { display: none; }
       }
       @media (prefers-reduced-motion: reduce) {
@@ -149,42 +280,86 @@
   <body>
     <header class="titlebar" aria-hidden="true">
       <span class="dot r"></span><span class="dot y"></span><span class="dot g"></span>
-      <span class="title">abadojack — main.go</span>
+      <span class="title">abadojack.info</span>
     </header>
 
-    <nav class="tabs" aria-hidden="true"><span class="tab">main.go</span></nav>
+    <nav class="explorer" aria-label="Files">
+      <h2>Explorer</h2>
+      <ul>
+        <li><span class="dir">about/</span>
+          <ul>
+            <li><a href="#about/profile.go">profile.go</a></li>
+            <li><a href="#about/experience.md">experience.md</a></li>
+          </ul>
+        </li>
+        <li class="root"><a href="#contact.go">contact.go</a></li>
+      </ul>
+    </nav>
 
     <main class="editor">
-<pre><code><span class="l"><span class="k">package</span> main</span>
-<span class="l"></span>
-<span class="l"><span class="k">type</span> <span class="t">Profile</span> <span class="k">struct</span> {</span>
-<span class="l">	<span class="p">Name</span>     <span class="t">string</span></span>
-<span class="l">	<span class="p">Email</span>    <span class="t">string</span></span>
-<span class="l">	<span class="p">Github</span>   <span class="t">string</span></span>
-<span class="l">	<span class="p">LinkedIn</span> <span class="t">string</span></span>
-<span class="l">	<span class="p">Calendar</span> <span class="t">string</span></span>
-<span class="l">	<span class="p">X</span>        <span class="t">string</span></span>
-<span class="l">}</span>
-<span class="l"></span>
-<span class="l"><span class="k">func</span> <span class="f">main</span>() {</span>
-<span class="l">	abado := <span class="t">Profile</span>{</span>
-<span class="l">		<span class="p">Name</span>:     <span class="s">"Abado Mtulla"</span>,</span>
-<span class="l">		<span class="p">Email</span>:    <a class="s" href="mailto:abadojack+web@gmail.com">"abadojack@gmail.com"</a>,</span>
-<span class="l">		<span class="p">Github</span>:   <a class="s" href="https://github.com/abadojack" target="_blank" rel="noopener">"github.com/abadojack"</a>,</span>
-<span class="l">		<span class="p">LinkedIn</span>: <a class="s" href="https://www.linkedin.com/in/abado-mtulla-b66624107" target="_blank" rel="noopener">"linkedin.com/in/abado-mtulla-b66624107"</a>,</span>
-<span class="l">		<span class="p">Calendar</span>: <a class="s" href="https://calendar.app.google/ijbZtaiSrzycdfzDA" target="_blank" rel="noopener">"calendar.app.google/ijbZtaiSrzycdfzDA"</a>,</span>
-<span class="l">		<span class="p">X</span>:        <a class="s" href="https://x.com/abadojack" target="_blank" rel="noopener">"x.com/abadojack"</a>,</span>
-<span class="l">	}</span>
-<span class="l">	_ = abado</span>
-<span class="l active">}<span class="cursor"></span></span></code></pre>
+      <div class="tabs" aria-hidden="true"><span class="tab" id="tab">profile.go</span></div>
+      <div class="crumbs" aria-hidden="true" id="crumbs">about › profile.go</div>
+
+      <div class="pane" id="pane" tabindex="-1">
+
+        <article class="file" id="about/profile.go" data-lang="Go">
+<pre><code><span class="l"><span class="k">package</span> about</span><span class="l"></span><span class="l"><span class="k">type</span> <span class="t">Person</span> <span class="k">struct</span> {</span><span class="l">	<span class="p">Name</span>   <span class="t">string</span></span><span class="l">	<span class="p">Role</span>   <span class="t">string</span></span><span class="l">	<span class="p">Based</span>  <span class="t">string</span></span><span class="l">	<span class="p">Writes</span> []<span class="t">string</span></span><span class="l">}</span><span class="l"></span><span class="l"><span class="k">var</span> abado = <span class="t">Person</span>{</span><span class="l">	<span class="p">Name</span>:   <span class="s">"Abado Mtulla"</span>,</span><span class="l">	<span class="p">Role</span>:   <span class="s">"Software Engineer"</span>,</span><span class="l">	<span class="p">Based</span>:  <span class="s">"Nairobi, Kenya"</span>,</span><span class="l">	<span class="p">Writes</span>: []<span class="t">string</span>{<span class="s">"Go"</span>, <span class="s">"Python"</span>, <span class="s">"C#"</span>, <span class="s">"Java"</span>, <span class="s">"JavaScript"</span>, <span class="s">"C"</span>, <span class="s">"C++"</span>},</span><span class="l active">}<span class="cursor"></span></span></code></pre>
+        </article>
+
+        <article class="file" id="about/experience.md" data-lang="Markdown">
+          <div class="prose">
+            <h1>Experience</h1>
+            <ul class="timeline">
+              <li><strong>Sematext</strong> <span class="meta">· Senior Software Engineer · <span class="nw">2025–present</span></span><br />Observability for distributed systems with OpenTelemetry, Go and ClickHouse.</li>
+              <li><strong>A5 Labs</strong> <span class="meta">· Backend Developer · <span class="nw">2023–2025</span></span><br />Geolocation compliance and fraud prevention.</li>
+              <li><strong>Wish</strong> <span class="meta">· Senior Software Engineer · <span class="nw">2022–2023</span></span><br />Moved a monolith to Go microservices.</li>
+              <li><strong>Frontdoor</strong> <span class="meta">· Backend Developer, via Andela · <span class="nw">2019–2022</span></span><br />Microservices in C#, Go and Python for an on-demand home services app.</li>
+              <li><strong>Andela</strong> <span class="meta">· Software Engineer · <span class="nw">2018–2019</span></span><br />Notification service for an asset management tool.</li>
+              <li><strong>Wobe</strong> <span class="meta">· Software Engineer · <span class="nw">2017–2018</span></span><br />Go microservices on Postgres, RabbitMQ and Redis.</li>
+            </ul>
+            <p class="actions"><a href="https://www.linkedin.com/in/abado-mtulla-b66624107" target="_blank" rel="noopener">Full history on LinkedIn →</a></p>
+          </div>
+        </article>
+
+
+        <article class="file" id="contact.go" data-lang="Go">
+<pre><code><span class="l"><span class="k">package</span> main</span><span class="l"></span><span class="l"><span class="k">type</span> <span class="t">Profile</span> <span class="k">struct</span> {</span><span class="l">	<span class="p">Name</span>     <span class="t">string</span></span><span class="l">	<span class="p">Email</span>    <span class="t">string</span></span><span class="l">	<span class="p">Github</span>   <span class="t">string</span></span><span class="l">	<span class="p">LinkedIn</span> <span class="t">string</span></span><span class="l">	<span class="p">Calendar</span> <span class="t">string</span></span><span class="l">	<span class="p">X</span>        <span class="t">string</span></span><span class="l">}</span><span class="l"></span><span class="l"><span class="k">func</span> <span class="f">main</span>() {</span><span class="l">	abado := <span class="t">Profile</span>{</span><span class="l">		<span class="p">Name</span>:     <span class="s">"Abado Mtulla"</span>,</span><span class="l">		<span class="p">Email</span>:    <a class="s" href="mailto:abadojack+web@gmail.com">"abadojack@gmail.com"</a>,</span><span class="l">		<span class="p">Github</span>:   <a class="s" href="https://github.com/abadojack" target="_blank" rel="noopener">"github.com/abadojack"</a>,</span><span class="l">		<span class="p">LinkedIn</span>: <a class="s" href="https://www.linkedin.com/in/abado-mtulla-b66624107" target="_blank" rel="noopener">"linkedin.com/in/abado-mtulla-b66624107"</a>,</span><span class="l">		<span class="p">Calendar</span>: <a class="s" href="https://calendar.app.google/ijbZtaiSrzycdfzDA" target="_blank" rel="noopener">"calendar.app.google/ijbZtaiSrzycdfzDA"</a>,</span><span class="l">		<span class="p">X</span>:        <a class="s" href="https://x.com/abadojack" target="_blank" rel="noopener">"x.com/abadojack"</a>,</span><span class="l">	}</span><span class="l">	_ = abado</span><span class="l active">}<span class="cursor"></span></span></code></pre>
+        </article>
+
+      </div>
     </main>
 
     <footer class="statusbar">
       <span class="left">⎇ master</span>
-      <span>Ln 22, Col 2</span>
+      <a href="mailto:abadojack+web@gmail.com">✉ email</a>
       <span class="hide-sm">UTF-8</span>
-      <span class="hide-sm">Tab Size: 4</span>
-      <span>Go</span>
+      <span id="lang">Go</span>
+      <span class="hide-sm">Nairobi, KE</span>
     </footer>
+
+    <script>
+      const files = [...document.querySelectorAll(".file")];
+      const links = [...document.querySelectorAll(".explorer a")];
+      const pane = document.getElementById("pane");
+
+      function open() {
+        const path = decodeURIComponent(location.hash.slice(1));
+        const file = files.find(f => f.id === path) || files[0];
+        files.forEach(f => f.classList.toggle("active", f === file));
+        links.forEach(a => {
+          if (a.getAttribute("href") === "#" + file.id) a.setAttribute("aria-current", "page");
+          else a.removeAttribute("aria-current");
+        });
+        const name = file.id.split("/").pop();
+        document.getElementById("tab").textContent = name;
+        document.getElementById("crumbs").textContent = file.id.split("/").join(" › ");
+        document.getElementById("lang").textContent = file.dataset.lang;
+        document.title = file === files[0] ? "Abado Mtulla" : name + " — Abado Mtulla";
+        pane.scrollTop = 0;
+      }
+
+      addEventListener("hashchange", () => { open(); pane.focus({ preventScroll: true }); });
+      open();
+    </script>
   </body>
 </html>
