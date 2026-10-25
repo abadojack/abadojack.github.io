@@ -212,8 +212,28 @@
         color: var(--muted);
       }
       .prose h2::before { content: "## "; color: var(--gutter); }
-      .prose .timeline { list-style: none; padding: 0; }
-      .prose .timeline li { margin-bottom: 14px; }
+      .prose .timeline {
+        list-style: none;
+        padding: 0 0 0 20px;
+        border-left: 1px solid var(--border);
+      }
+      .prose .timeline li { position: relative; margin-bottom: 18px; }
+      .prose .timeline li::before {
+        content: "";
+        position: absolute;
+        left: -25px;
+        top: 0.55em;
+        width: 9px;
+        height: 9px;
+        border-radius: 50%;
+        background: var(--bg);
+        border: 2px solid var(--gutter);
+      }
+      .prose .timeline li.current::before { background: var(--accent); border-color: var(--accent); }
+      .prose .co { color: var(--func); }
+      .prose .role { color: var(--field); }
+      .prose .yr { color: var(--string); }
+      #about\/experience\.md h1::before { content: "# "; color: var(--keyword); }
       .nw { white-space: nowrap; }
       .prose strong { color: var(--bright); font-weight: 600; }
       .prose p, .prose ul { margin: 0 0 12px; }
@@ -310,12 +330,12 @@
           <div class="prose">
             <h1>Experience</h1>
             <ul class="timeline">
-              <li><strong>Sematext</strong> <span class="meta">· Senior Software Engineer · <span class="nw">2025–present</span></span><br />Observability for distributed systems with OpenTelemetry, Go and ClickHouse.</li>
-              <li><strong>A5 Labs</strong> <span class="meta">· Backend Developer · <span class="nw">2023–2025</span></span><br />Geolocation compliance and fraud prevention.</li>
-              <li><strong>Wish</strong> <span class="meta">· Senior Software Engineer · <span class="nw">2022–2023</span></span><br />Moved a monolith to Go microservices.</li>
-              <li><strong>Frontdoor</strong> <span class="meta">· Backend Developer, via Andela · <span class="nw">2019–2022</span></span><br />Microservices in C#, Go and Python for an on-demand home services app.</li>
-              <li><strong>Andela</strong> <span class="meta">· Software Engineer · <span class="nw">2018–2019</span></span><br />Notification service for an asset management tool.</li>
-              <li><strong>Wobe</strong> <span class="meta">· Software Engineer · <span class="nw">2017–2018</span></span><br />Go microservices on Postgres, RabbitMQ and Redis.</li>
+              <li class="current"><strong class="co">Sematext</strong> <span class="meta">· <span class="role">Senior Software Engineer</span> · <span class="nw yr">2025–present</span></span><br />Observability for distributed systems with OpenTelemetry, Go and ClickHouse.</li>
+              <li><strong class="co">A5 Labs</strong> <span class="meta">· <span class="role">Backend Developer</span> · <span class="nw yr">2023–2025</span></span><br />Geolocation compliance and fraud prevention.</li>
+              <li><strong class="co">Wish</strong> <span class="meta">· <span class="role">Senior Software Engineer</span> · <span class="nw yr">2022–2023</span></span><br />Moved a monolith to Go microservices.</li>
+              <li><strong class="co">Frontdoor</strong> <span class="meta">· <span class="role">Backend Developer, via Andela</span> · <span class="nw yr">2019–2022</span></span><br />Microservices in C#, Go and Python for an on-demand home services app.</li>
+              <li><strong class="co">Andela</strong> <span class="meta">· <span class="role">Software Engineer</span> · <span class="nw yr">2018–2019</span></span><br />Notification service for an asset management tool.</li>
+              <li><strong class="co">Wobe</strong> <span class="meta">· <span class="role">Software Engineer</span> · <span class="nw yr">2017–2018</span></span><br />Go microservices on Postgres, RabbitMQ and Redis.</li>
             </ul>
             <p class="actions"><a href="https://www.linkedin.com/in/abado-mtulla-b66624107" target="_blank" rel="noopener">Full history on LinkedIn →</a></p>
           </div>
